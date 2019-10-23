@@ -4,7 +4,7 @@
 import numpy
 import math
 
-mod = int(1e9+7)
+mod = int(1e9)
 
 # Fib padrão feito de várias formais distinstas.
 
@@ -36,7 +36,7 @@ def fastExponentiation (A, pow):
   ans = [[0 for x in range(n)] for y in range(n)]
   for i in range(n):
     for j in range(n):
-      ans[i][j] = (i == j)
+      ans[i][j] = int(i == j)
   
   while(pow):
     if (pow & 1): 
@@ -92,27 +92,27 @@ def linearTriUsingALA (n):
 # print(linearTriUsingALA(maxN))
 
 # SEQ - Recursive Sequence
-
 def buildBase(c):
   base = [[0 for x in range(len(c))] for y in range(len(c))]
   for i in range (0, len(c)):
     base[0][i] = c[i]
   for i in range (1, len(c)):
-    for j in range (0, len(c)):
-      base[i][j] = int(i-1 == j)
+      base[i][i-1] = 1
+  #print(base)
   return base
 
+# Função que resolve a questão SEQ. USAR MOD 1e9 
 def seq(b, c, n):
-  if(n <= len(b)):
-    return b[n-1]
-
   M = buildBase(c)
+  print(M)
   M = fastExponentiation(M, n-1)
-  print(b)
   print(M)
   ans = 0
   for i in range(0, len(M)):
-    ans += (M[0][i] * b[len(b)-i-1]) % mod  
-  return ans
+    ans += (M[len(M)-1][len(M)-i-1] * b[i]) % mod 
+  return ans % mod
 
-print(seq([1, 2, 3], [4, 5, 6], 6))
+print(seq([24, 354, 6], [56, 57, 465], 98765432))
+
+
+
