@@ -3,8 +3,9 @@
 
 import numpy
 import math
+import timeit
 
-mod = int(1e9+7)
+mod = int(1e9)
 
 # Fib padrão feito de várias formais distinstas.
 
@@ -19,7 +20,7 @@ def linearFib (n):
   for i in xrange(2, n+1):
     fib.append(fib[1] % mod + fib[0] % mod)
     fib.pop(0)
-  return fib[1]
+  return fib[1] % mod
 
 def prodMatrix (A, B):
   n = len(A)
@@ -52,13 +53,21 @@ def linearFibUsingAL (n):
   M = [[1, 1], [1, 0]]
   M = fastExponentiation(M, n-1)
 
-  return M[0][0] + M[0][1]
+  return (M[0][0] + M[0][1]) % mod
 
-maxN = 15
+maxN = int(1e8)
 
+def printTime(function, maxN):
+  # label = function +'(' + str(maxN) + ')', 'from __main__ import'+ ' ' + function
+  print(timeit.Timer( function +'(' + str(maxN) + ')', 'from __main__ import'+ ' ' + function ).repeat(1,1))
+  return
+
+# printTime('defaultFib', maxN)
 # print(defaultFib(maxN))
-# print(linearFib(maxN))
-# print(linearFibUsingAL(maxN))
+printTime('linearFib', maxN)
+print(linearFib(maxN))
+printTime('linearFibUsingAL', maxN)
+print(linearFibUsingAL(maxN))
 
 # # Tribonacci
 def defaultTri (n):
@@ -93,12 +102,12 @@ def linearTriUsingALA (n):
 
 # SEQ - Recursive Sequence
 
-def buildBase(c):
-  base = [[0 for x in range(len(c))] for y in range(len(c))]
-  for i in range (0, len(c)):
-    base[0][i] = c[i]
-  for i in range (1, len(c)):
-    for j in range (0, len(c)):
+def buildBase(mat):
+  base = [[0 for x in range(len(mat))] for y in range(len(mat))]
+  for i in range (0, len(mat)):
+    base[0][i] = mat[i]
+  for i in range (1, len(mat)):
+    for j in range (0, len(mat)):
       base[i][j] = int(i-1 == j)
   return base
 
@@ -107,12 +116,10 @@ def seq(b, c, n):
     return b[n-1]
 
   M = buildBase(c)
-  M = fastExponentiation(M, n-1)
-  print(b)
-  print(M)
+  M = fastExponentiation(M, n-len(M))
   ans = 0
   for i in range(0, len(M)):
     ans += (M[0][i] * b[len(b)-i-1]) % mod  
   return ans
 
-print(seq([1, 2, 3], [4, 5, 6], 6))
+# print(seq([1, 2, 3], [4, 5, 6], 6))
