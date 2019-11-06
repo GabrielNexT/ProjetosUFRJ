@@ -1,8 +1,14 @@
+# -*- coding: utf-8 -*-
+#coding: utf-8
 from PIL import Image
 import numpy as np
 import imageio
 import matplotlib.pyplot as plt
 import os
+
+# Variáveis globais
+src = os.listdir('src')
+database = [[] for y in range(150*150)]
 
 # Funções auxiliares
 
@@ -21,13 +27,21 @@ def push(matrix):
   vector = matrixToArray(matrix)
   insertOnDatabase(vector)
 
+def findAvarage():
+  avarage = []
+  for x in range (len(database)):
+    sum = 0 
+    for y in range (33):
+      sum += database[x][y]
+    avarage.append(int(sum/33))
+  return avarage
 
-src = os.listdir('src')
-
-database = [[] for y in range(150*150)]
-
+# Main
 for i in src:
   img = imageio.imread('src/' + i)
   push(img)
 
+print(len(database))
 print(database[0])
+print('Coluna Media:')
+print(findAvarage())
