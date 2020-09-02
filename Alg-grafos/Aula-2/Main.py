@@ -1,5 +1,6 @@
 import random
 import queue
+import math
 
 class Grafo:
   def __init__(self, size):
@@ -16,6 +17,8 @@ class Grafo:
 
   def bfs(self, index):
     vis = [False] * len(self.grafo)
+    dist = [math.inf] * len(self.grafo)
+    dist[index] = 0
     q = queue.Queue()
     q.put(index)
     while not q.empty():
@@ -24,17 +27,15 @@ class Grafo:
         continue
       else:
         vis[u] = True
-      print(f"Visitando os vizinhos do {u}")
       for i in self.grafo[u]:
-        q.put(i)      
+        q.put(i)
+        if(dist[i] == math.inf or dist[i] > dist[u] + 1):
+          dist[i] = dist[u] + 1;
+    print(dist)
 
-
-
-size = 5
-
+size = 15
 v = Grafo(size)
 for i in range(size * 2):
   v.addEdge(random.randint(0, size - 1), random.randint(0, size - 1))
 v.print()
-print('-------')
 v.bfs(1)
