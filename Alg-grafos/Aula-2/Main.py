@@ -23,14 +23,12 @@ class Grafo:
     q.put(index)
     while not q.empty():
       u = q.get()
-      if(vis[u]):
-        continue
-      else:
-        vis[u] = True
+      vis[u] = True
       for i in self.grafo[u]:
-        q.put(i)
         if(dist[i] == math.inf or dist[i] > dist[u] + 1):
           dist[i] = dist[u] + 1;
+          if not vis[i]:
+            q.put(i)
     print(dist)
 
 size = 15
