@@ -1,4 +1,8 @@
 '''
+  Gabriel Oliveira de Março - 118147655
+
+  Algoritmo e grafos
+
   O algoritmo suporta vértices de tamanho até 1000.
   Caso queira colocar um valor maior, aumentar o MAXN abaixo.
 
